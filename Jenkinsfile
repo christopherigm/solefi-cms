@@ -17,9 +17,17 @@ pipeline {
         }
         stage('Deploy') {
             steps {
+                sh 'rm -rf media'
+                sh 'cp -r /var/www/apps/staging/solefi-cms/media ./'
                 sh 'rm -rf /var/www/apps/staging/solefi-cms'
                 sh 'mkdir /var/www/apps/staging/solefi-cms'
                 sh 'cp -r ./* /var/www/apps/staging/solefi-cms'
+            }
+        }
+        stage('Restart Supervisor') {
+            steps {
+                sh 'sudo supervisorctl reread'
+                sh 'sudo supervisorctl update'
             }
         }
     }
