@@ -12,13 +12,9 @@ pipeline {
             }
         }
         stage('Build') {
-            environment {
-                PY_WRAPPER = '/opt/venv/solefi/bin/python3'
-            }
             steps {
-                dir('/var/www/apps/staging/solefi-cms') {
-                    sh '$PY_WRAPPER -m pip install -r requirements.txt'
-                }
+                sh 'source /home/christopher/.virtualenvs/solefi/bin/activate'
+                sh 'python3 -m pip install -r requirements.txt'
             }
         }
     }
