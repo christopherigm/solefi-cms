@@ -19,13 +19,13 @@ pipeline {
             environment {
                 MEDIA_DIR = '/var/www/apps/staging/solefi-cms/media'
             }
+            if(fileExists('media')) {
+                sh 'rm -rf media'
+            }
+            if(fileExists('$MEDIA_DIR')) {
+                sh 'cp -r $MEDIA_DIR ./'
+            }
             steps {
-                if(fileExists('media')) {
-                    sh 'rm -rf media'
-                }
-                if(fileExists('$MEDIA_DIR')) {
-                    sh 'cp -r $MEDIA_DIR ./'
-                }
                 sh 'rm -rf /var/www/apps/staging/solefi-cms'
                 sh 'mkdir /var/www/apps/staging/solefi-cms'
                 sh 'cp -r ./* /var/www/apps/staging/solefi-cms'
