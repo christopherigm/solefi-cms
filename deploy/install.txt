@@ -1,0 +1,11 @@
+How to use it
+
+$ ./install.sh [parameters]
+
+Parameter       Name                Example
+
+-d              DNS                 my-web-app.com
+-f              Folder              my-web-app
+-n              Process name        my_web_app
+-p              Port                4000
+-e              Environment         qa          
