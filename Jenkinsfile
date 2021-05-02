@@ -16,7 +16,6 @@ pipeline {
                 PY_WRAPPER = '/home/christopher/.virtualenvs/solefi/bin/python3'
             }
             steps {
-                sh 'source /home/christopher/.virtualenvs/solefi/bin/activate'
                 dir('/var/www/apps/staging/solefi-cms') {
                     sh '$PY_WRAPPER -m pip freeze -l > req.txt'
                 }
