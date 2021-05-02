@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Build') {
             environment {
-                PY_WRAPPER = '/home/christopher/.virtualenvs/solefi/bin/python3'
+                PY_WRAPPER = '/opt/venv/solefi/bin/python3'
             }
             steps {
                 dir('/var/www/apps/staging/solefi-cms') {
