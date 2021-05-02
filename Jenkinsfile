@@ -14,7 +14,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh '. /home/christopher/.virtualenvs/solefi/bin/activate'
-                sh 'python3 -m pip install -r requirements.txt'
+                sh '/home/christopher/.virtualenvs/solefi/bin/python3 -m pip install -r requirements.txt'
             }
         }
     }
