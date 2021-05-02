@@ -16,9 +16,12 @@ pipeline {
             }
         }
         stage('Deploy') {
+            environment {
+                MEDIA_DIR = '/var/www/apps/staging/solefi-cms/media'
+            }
             steps {
-                sh 'rm -rf media'
-                sh 'cp -r /var/www/apps/staging/solefi-cms/media ./'
+                sh '[ -e media ] && rm -rf media'
+                sh '[ -e $MEDIA_DIR ] && cp -r $MEDIA_DIR ./'
                 sh 'rm -rf /var/www/apps/staging/solefi-cms'
                 sh 'mkdir /var/www/apps/staging/solefi-cms'
                 sh 'cp -r ./* /var/www/apps/staging/solefi-cms'
