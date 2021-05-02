@@ -17,7 +17,7 @@ pipeline {
             }
             steps {
                 dir('/var/www/apps/staging/solefi-cms') {
-                    sh '$PY_WRAPPER -m pip freeze -l \> req.txt'
+                    sh '$PY_WRAPPER -m pip install -r requirements.txt'
                 }
             }
         }
