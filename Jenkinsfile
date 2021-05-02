@@ -5,9 +5,6 @@ pipeline {
     }
     stages {
         stage('Copy') {
-            environment {
-                PUBLIC_URL = ''
-            }
             steps {
                 sh 'rm -rf /var/www/apps/staging/solefi-cms'
                 sh 'mkdir /var/www/apps/staging/solefi-cms'
@@ -15,10 +12,13 @@ pipeline {
             }
         }
         stage('Build') {
+            environment {
+                PY_WRAPPER = '/home/christopher/.virtualenvs/solefi/bin/python3'
+            }
             steps {
                 sh 'source /home/christopher/.virtualenvs/solefi/bin/activate'
                 dir('/var/www/apps/staging/solefi-cms') {
-                    sh 'python3 -m pip freeze -l > req.txt'
+                    sh '$PY_WRAPPER -m pip freeze -l > req.txt'
                 }
             }
         }
