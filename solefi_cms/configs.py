@@ -23,12 +23,6 @@ if 'email_id' in os.environ:
 if 'email_password' in os.environ:
     email_password = os.environ['email_password']
 
-print('>>>>>> environment', environment)
-print('>>>>>> db_name', db_name)
-print('>>>>>> db_user', db_user)
-print('>>>>>> db_password', db_password)
-print('>>>>>> email_id', email_id)
-
 class Common:
     SITE_HEADER = 'Solefi'
     INDEX_TITLE = 'CMS'
@@ -42,7 +36,7 @@ class Common:
     JWT_REFRESH_EXPIRATION_MINUTES = 600
     DATABASES = {
         'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': db_name,
         'USER': db_user,
         'PASSWORD': db_password,
