@@ -14,6 +14,8 @@ pipeline {
                 PY_WRAPPER = '/home/christopher/.virtualenvs/solefi/bin/python3'
                 env = 'staging'
                 db_name = sh(script: 'echo $SOLEFI_STAGING_DB', , returnStdout: true).trim()
+                db_user = sh(script: 'echo $SOLEFI_STAGING_DB', , returnStdout: true).trim()
+                db_password = sh(script: 'echo $SOLEFI_STAGING_DB', , returnStdout: true).trim()
                 email_id = 'john@doe.com'
                 email_password = 'password'
             }
