@@ -27,6 +27,7 @@ print('>>>>>> environment', environment)
 print('>>>>>> db_name', db_name)
 print('>>>>>> db_user', db_user)
 print('>>>>>> db_password', db_password)
+print('>>>>>> email_id', email_id)
 
 class Common:
     SITE_HEADER = 'Solefi'

@@ -13,13 +13,11 @@ pipeline {
             environment {
                 PY_WRAPPER = '/home/christopher/.virtualenvs/solefi/bin/python3'
                 env = 'staging'
+                db_name = sh 'echo $SOLEFI_STAGING_DB'
                 email_id = 'john@doe.com'
                 email_password = 'password'
             }
             steps {
-                sh 'export db_name=$SOLEFI_STAGING_DB'
-                sh 'export db_user=$SOLEFI_STAGING_DB'
-                sh 'export db_password=$SOLEFI_STAGING_DB'
                 sh '. /home/christopher/.virtualenvs/solefi/bin/activate'
                 sh '$PY_WRAPPER -m pip install -r requirements.txt'
                 sh '$PY_WRAPPER manage.py migrate'
