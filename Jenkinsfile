@@ -13,7 +13,7 @@ pipeline {
             environment {
                 PY_WRAPPER = '/home/christopher/.virtualenvs/solefi/bin/python3'
                 env = 'staging'
-                db_name = sh 'echo $SOLEFI_STAGING_DB'
+                db_name = '$env.SOLEFI_STAGING_DB'
                 email_id = 'john@doe.com'
                 email_password = 'password'
             }
