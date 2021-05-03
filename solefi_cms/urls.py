@@ -25,6 +25,9 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenVerifyView,
 )
+from common.views import (
+    System
+)
 
 router = routers.DefaultRouter()
 
@@ -39,6 +42,7 @@ urlpatterns = [
   url(r'^v1/token/verify/$', TokenVerifyView.as_view(), name='token_verify'),
 #   url(r'^v1/login', Login.as_view(), name='login'),
   url(r'^tinymce/', include('tinymce.urls')),
+  path('v1/system/info', System.as_view())
 #   path('v1/system/info', System.as_view())
 ]
 
