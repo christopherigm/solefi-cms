@@ -1,23 +1,26 @@
 {
-  "name": "iguzman-db",
+  "name": "solefi-cms",
   "version": "1.0.0",
-  "description": "Django API",
+  "description": "Solefi CMS",
   "main": "manage.py",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "python3 manage.py runserver 0.0.0.0:8000",
+    "static": "python3 manage.py collectstatic --noinput",
+    "user": "./utils/createsuperuser.sh",
+    "app": "./utils/createapp.sh",
+    "migrations": "python3 manage.py makemigrations",
+    "migrate": "python3 manage.py migrate",
     "install": "./deploy/install.sh",
-    "uninstall": "./deploy/uninstall.sh",
-    "user": "./deploy/createsuperuser.sh"
+    "uninstall": "./deploy/uninstall.sh"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/christopherigm/iguzman-db.git"
+    "url": "git+https://github.com/christopherigm/solefi-cms.git"
   },
   "author": "Christopher Guzman",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/christopherigm/iguzman-db/issues"
+    "url": "https://github.com/christopherigm/solefi-cms/issues"
   },
-  "homepage": "https://github.com/christopherigm/iguzman-db#readme"
+  "homepage": "https://github.com/christopherigm/solefi-cms#readme"
 }
