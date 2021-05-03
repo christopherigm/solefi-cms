@@ -46,13 +46,13 @@ echo "Enter virtualenv (my-venv):"
 read venv
 if [ ! -n "$venv" ]
 then
-	echo "Error: virtualenv variable not provided: /home/USER/.virtualenvs/my-venv/";
+	echo "Error: virtualenv variable not provided: my-venv";
     exit 1;
 fi
 
 echo "Enter Django App name (my_django_app):"
-read django
-if [ ! -n "$django" ]
+read django_app_name
+if [ ! -n "$django_app_name" ]
 then
 	echo "Error: Django App name variable not provided: my_django_app";
     exit 1;
@@ -98,65 +98,84 @@ then
     exit 1;
 fi
 
+echo "Enter Email ID (john@doe.com):"
+read email_id
+if [ ! -n "$email_id" ]
+then
+	echo "Error: Email ID variable not provided: 2";
+    exit 1;
+fi
+
+echo "Enter Email password (******):"
+read email_password
+if [ ! -n "$email_password" ]
+then
+	echo "Error: Email password variable not provided: 2";
+    exit 1;
+fi
+
 # ============ Functions ============
 # $1 type -> nginx / supervisor
-# $2 environment
-# $3 dns
-# $4 port
-# $5 venv
-# $6 django
-# $7 db_name
-# $8 db_user
-# $9 db_password
-# $10 app_id
-# $11 django_workers
 PopulateFile () {
-    file_name="$4.$3.$2.conf";
+    file_name="$port.$dns.$envt.conf";
     cp $1.conf $file_name;
-    sed -i "s/PORT/$4/gi" $file_name;
-    sed -i "s/DNS/$3/gi" $file_name;
-    sed -i "s/ENVT/$2/gi" $file_name;
-    sed -i "s/FOLDER/$folder/gi" $file_name;
-    sed -i "s/PROCESS_NAME/$process_name/gi" $file_name;
-    sed -i "s/VENV/$5/gi" $file_name;
-    sed -i "s/DJANGO/$6/gi" $file_name;
-    sed -i "s/DB_NAME/$7/gi" $file_name;
-    sed -i "s/DB_USER/$8/gi" $file_name;
-    sed -i "s/DB_PASSWORD/$9/gi" $file_name;
-    sed -i "s/APP_ID/${10}/gi" $file_name;
-    sed -i "s/DJANGO_WORKERS/${11}/gi" $file_name;
+    sed -i "s/PORT/$port/g" $file_name;
+    sed -i "s/DNS/$dns/g" $file_name;
+    sed -i "s/ENVT/$envt/g" $file_name;
+    sed -i "s/FOLDER/$folder/g" $file_name;
+    sed -i "s/PROCESS_NAME/$process_name/g" $file_name;
+    sed -i "s/VENV/$venv/g" $file_name;
+    sed -i "s/OS_USER/$USER/g" $file_name;
+    sed -i "s/DJANGO_APP_NAME/$django_app_name/g" $file_name;
+    sed -i "s/DB_NAME/$db_name/g" $file_name;
+    sed -i "s/DB_USER/$db_user/g" $file_name;
+    sed -i "s/DB_PASSWORD/$db_password/g" $file_name;
+    sed -i "s/APP_ID/$app_id/g" $file_name;
+    sed -i "s/DJANGO_WORKERS/$django_workers/g" $file_name;
+    sed -i "s/EMAIL_ID/$email_id/g" $file_name;
+    sed -i "s/EMAIL_PASSWORD/$email_password/g" $file_name;
 }
 
-echo "Deploy Nginx configuration? (y/n)"
-read deploy
+echo "Create Nginx configuration? (y/n)"
+read create
 
-if [ "$deploy" == "y" ]
+if [ "$create" == "y" ]
 then
-	PopulateFile "nginx" "$envt" "$dns" "$port";
-    sudo cp ./$file_name /etc/nginx/sites-available/;
-    sudo ln -s /etc/nginx/sites-available/$file_name /etc/nginx/sites-enabled/;
-    sudo nginx -t;
-    sudo service nginx restart;
+	PopulateFile "nginx";
     echo "======================================";
     echo "$file_name:";
     cat $file_name;
     echo "======================================";
+    echo "Deploy Nginx configuration? (y/n)"
+    read deploy
+    if [ "$deploy" == "y" ]
+    then
+        sudo cp ./$file_name /etc/nginx/sites-available/;
+        sudo ln -s /etc/nginx/sites-available/$file_name /etc/nginx/sites-enabled/;
+        sudo nginx -t;
+        sudo service nginx restart;
+    fi
     rm ./$file_name;
 fi
 
-echo "Deploy Supervisor configuration? (y/n)"
-read deploy
-if [ "$deploy" == "y" ]
+echo "Create Supervisor configuration? (y/n)"
+read create
+if [ "$create" == "y" ]
 then
-    PopulateFile "supervisor" "$envt" "$dns" "$port" "$venv" "$django" "$db_name" "$db_user" "$db_password" "$app_id" "$django_workers";
-    sudo cp ./$file_name /etc/supervisor/conf.d/;
-    sudo supervisorctl reread;
-    sudo supervisorctl update;
-    sudo supervisorctl status;
+    PopulateFile "supervisor";
     echo "======================================";
     echo $file_name;
     cat $file_name;
     echo "======================================";
+    echo "Deploy Supervisor configuration? (y/n)"
+    read deploy
+    if [ "$deploy" == "y" ]
+    then
+        sudo cp ./$file_name /etc/supervisor/conf.d/;
+        sudo supervisorctl reread;
+        sudo supervisorctl update;
+        sudo supervisorctl status;
+    fi
     rm ./$file_name;
 fi
 

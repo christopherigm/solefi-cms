@@ -12,6 +12,12 @@ pipeline {
         stage('Build') {
             environment {
                 PY_WRAPPER = '/home/christopher/.virtualenvs/solefi/bin/python3'
+                env = 'staging'
+                db_name = '$SOLEFI_STAGING_DB'
+                db_user = '$SOLEFI_STAGING_DB'
+                db_password = '$SOLEFI_STAGING_DB'
+                email_id = 'john@doe.com'
+                email_password = 'password'
             }
             steps {
                 sh '. /home/christopher/.virtualenvs/solefi/bin/activate'
