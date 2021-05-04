@@ -2,59 +2,59 @@
 
 file_name="";
 
-echo "Enter DNS (my-api.com):"
+echo "Enter DNS (api-staging.solefi.iguzman.com.mx):"
 read dns
 if [ ! -n "$dns" ]
 then
-	echo "Error: DNS variable not provided: my-api.com";
+	echo "Error: DNS variable not provided: i.e. api-staging.solefi.iguzman.com.mx";
     exit 1;
 fi
 
-echo "Enter Folder name (my-api):"
+echo "Enter Folder name (solefi-cms):"
 read folder
 if [ ! -n "$folder" ]
 then
-	echo "Error: folder variable not provided: my-api";
+	echo "Error: folder variable not provided: solefi-cms";
     exit 1;
 fi
 
-echo "Enter Process Name (my_api):"
+echo "Enter Process Name (solefi_cms_staging):"
 read process_name
 if [ ! -n "$process_name" ]
 then
-	echo "Error: porcess name variable not provided: my_web_app";
+	echo "Error: porcess name variable not provided: solefi_cms_staging";
     exit 1;
 fi
 
-echo "Enter Port (4000):"
+echo "Enter Port (4010):"
 read port
 if [ ! -n "$port" ]
 then
-	echo "Error: port variable not provided: 4000";
+	echo "Error: port variable not provided: 4010";
     exit 1;
 fi
 
-echo "Enter environment variable (qa):"
+echo "Enter environment variable (staging):"
 read envt
 if [ ! -n "$envt" ]
 then
-	echo "Error: environtment variable not provided: qa";
+	echo "Error: environtment variable not provided: staging";
     exit 1;
 fi
 
-echo "Enter virtualenv (my-venv):"
+echo "Enter virtualenv (solefi):"
 read venv
 if [ ! -n "$venv" ]
 then
-	echo "Error: virtualenv variable not provided: my-venv";
+	echo "Error: virtualenv variable not provided: solefi";
     exit 1;
 fi
 
-echo "Enter Django App name (my_django_app):"
+echo "Enter Django App name (solefi_cms):"
 read django_app_name
 if [ ! -n "$django_app_name" ]
 then
-	echo "Error: Django App name variable not provided: my_django_app";
+	echo "Error: Django App name variable not provided: solefi_cms";
     exit 1;
 fi
 
@@ -118,7 +118,7 @@ fi
 # $1 type -> nginx / supervisor
 PopulateFile () {
     file_name="$port.$dns.$envt.conf";
-    cp $1.conf $file_name;
+    sudo cp $1.conf $file_name;
     sed -i "s/PORT/$port/g" $file_name;
     sed -i "s/DNS/$dns/g" $file_name;
     sed -i "s/ENVT/$envt/g" $file_name;
@@ -155,7 +155,7 @@ then
         sudo nginx -t;
         sudo service nginx restart;
     fi
-    rm ./$file_name;
+    sudo rm ./$file_name;
 fi
 
 echo "Create Supervisor configuration? (y/n)"
@@ -176,7 +176,7 @@ then
         sudo supervisorctl update;
         sudo supervisorctl status;
     fi
-    rm ./$file_name;
+    sudo rm ./$file_name;
 fi
 
 echo "Done"
