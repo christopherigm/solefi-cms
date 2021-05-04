@@ -119,21 +119,21 @@ fi
 PopulateFile () {
     file_name="$port.$dns.$envt.conf";
     sudo cp $1.conf $file_name;
-    sed -i "s/PORT/$port/g" $file_name;
-    sed -i "s/DNS/$dns/g" $file_name;
-    sed -i "s/ENVT/$envt/g" $file_name;
-    sed -i "s/FOLDER/$folder/g" $file_name;
-    sed -i "s/PROCESS_NAME/$process_name/g" $file_name;
-    sed -i "s/VENV/$venv/g" $file_name;
-    sed -i "s/OS_USER/$USER/g" $file_name;
-    sed -i "s/DJANGO_APP_NAME/$django_app_name/g" $file_name;
-    sed -i "s/DB_NAME/$db_name/g" $file_name;
-    sed -i "s/DB_USER/$db_user/g" $file_name;
-    sed -i "s/DB_PASSWORD/$db_password/g" $file_name;
-    sed -i "s/APP_ID/$app_id/g" $file_name;
-    sed -i "s/DJANGO_WORKERS/$django_workers/g" $file_name;
-    sed -i "s/EMAIL_ID/$email_id/g" $file_name;
-    sed -i "s/EMAIL_PASSWORD/$email_password/g" $file_name;
+    sudo sed -i "s/PORT/$port/g" $file_name;
+    sudo sed -i "s/DNS/$dns/g" $file_name;
+    sudo sed -i "s/ENVT/$envt/g" $file_name;
+    sudo sed -i "s/FOLDER/$folder/g" $file_name;
+    sudo sed -i "s/PROCESS_NAME/$process_name/g" $file_name;
+    sudo sed -i "s/VENV/$venv/g" $file_name;
+    sudo sed -i "s/OS_USER/$USER/g" $file_name;
+    sudo sed -i "s/DJANGO_APP_NAME/$django_app_name/g" $file_name;
+    sudo sed -i "s/DB_NAME/$db_name/g" $file_name;
+    sudo sed -i "s/DB_USER/$db_user/g" $file_name;
+    sudo sed -i "s/DB_PASSWORD/$db_password/g" $file_name;
+    sudo sed -i "s/APP_ID/$app_id/g" $file_name;
+    sudo sed -i "s/DJANGO_WORKERS/$django_workers/g" $file_name;
+    sudo sed -i "s/EMAIL_ID/$email_id/g" $file_name;
+    sudo sed -i "s/EMAIL_PASSWORD/$email_password/g" $file_name;
 }
 
 echo "Create Nginx configuration? (y/n)"
