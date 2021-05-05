@@ -26,10 +26,26 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView,
 )
 from common.views import (
+    CountryViewSet,
+    StateViewSet,
+    CityViewSet,
     System
+)
+from users.views import (
+    UserViewSet,
+    GroupViewSet,
+    UserAddressViewSet,
+    Login
 )
 
 router = routers.DefaultRouter()
+
+router.register(r'countries', CountryViewSet)
+router.register(r'states', StateViewSet)
+router.register(r'cities', CityViewSet)
+router.register(r'users', UserViewSet)
+router.register(r'user-address', UserAddressViewSet)
+router.register(r'groups', GroupViewSet)
 
 urlpatterns = [
   url(r'^jet/', include('jet.urls', 'jet')),  # Django JET URLS
@@ -40,10 +56,9 @@ urlpatterns = [
   url(r'^v1/token/$', TokenObtainPairView.as_view(), name='token_obtain_pair'),
   url(r'^v1/token/refresh/$', TokenRefreshView.as_view(), name='token_refresh'),
   url(r'^v1/token/verify/$', TokenVerifyView.as_view(), name='token_verify'),
-#   url(r'^v1/login', Login.as_view(), name='login'),
+  url(r'^v1/login', Login.as_view(), name='login'),
   url(r'^tinymce/', include('tinymce.urls')),
   path('v1/system/info', System.as_view())
-#   path('v1/system/info', System.as_view())
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
