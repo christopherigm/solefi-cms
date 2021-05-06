@@ -36,6 +36,7 @@ pipeline {
             when { expression { REMOTE_MEDIA_EXIST == 'true' } }
             steps {
                 sh 'sudo cp -r $MEDIA_DIR ./'
+                sh 'sudo chmod -R 777 $MEDIA_DIR'
             }
         }
         stage('Deploy') {
