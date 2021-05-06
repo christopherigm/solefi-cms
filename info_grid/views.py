@@ -20,6 +20,11 @@ class InfoGridViewSet ( ModelViewSet ):
     queryset = InfoGrid.objects.all()
     serializer_class = InfoGridSerializer
     ordering = ['id']
+    filterset_fields = {
+        'name': ('exact',),
+        'page': ('exact',),
+        'id': ('exact',)
+    }
 
 class InfoGridItemViewSet ( 
         CustomCreate,
