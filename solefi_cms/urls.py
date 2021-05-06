@@ -37,6 +37,14 @@ from users.views import (
     UserAddressViewSet,
     Login
 )
+from pages.views import (
+    PageAddressViewSet,
+    PageViewSet
+)
+from info_grid.views import (
+    InfoGridViewSet,
+    InfoGridItemViewSet
+)
 
 router = routers.DefaultRouter()
 
@@ -46,6 +54,12 @@ router.register(r'cities', CityViewSet)
 router.register(r'users', UserViewSet)
 router.register(r'user-address', UserAddressViewSet)
 router.register(r'groups', GroupViewSet)
+
+router.register(r'page-address', PageAddressViewSet)
+router.register(r'pages', PageViewSet)
+
+router.register(r'info-grids', InfoGridViewSet)
+router.register(r'info-grid-items', InfoGridItemViewSet)
 
 urlpatterns = [
   url(r'^jet/', include('jet.urls', 'jet')),  # Django JET URLS
@@ -57,7 +71,7 @@ urlpatterns = [
   url(r'^v1/token/refresh/$', TokenRefreshView.as_view(), name='token_refresh'),
   url(r'^v1/token/verify/$', TokenVerifyView.as_view(), name='token_verify'),
   url(r'^v1/login', Login.as_view(), name='login'),
-  url(r'^tinymce/', include('tinymce.urls')),
+  path('tinymce/', include('tinymce.urls')),
   path('v1/system/info', System.as_view())
 ]
 
