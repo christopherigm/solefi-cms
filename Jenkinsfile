@@ -29,20 +29,20 @@ pipeline {
         stage('Remove cached media') {
             when { expression { LOCAL_MEDIA_EXIST == 'true' } }
             steps {
-                sh 'rm -rf media'
+                sh 'sudo rm -rf media'
             }
         }
         stage('Copy remote media') {
             when { expression { REMOTE_MEDIA_EXIST == 'true' } }
             steps {
-                sh 'cp -r $MEDIA_DIR ./'
+                sh 'sudo cp -r $MEDIA_DIR ./'
             }
         }
         stage('Deploy') {
             steps {
-                sh 'rm -rf /var/www/apps/staging/solefi-cms'
-                sh 'mkdir /var/www/apps/staging/solefi-cms'
-                sh 'cp -r ./* /var/www/apps/staging/solefi-cms'
+                sh 'sudo rm -rf /var/www/apps/staging/solefi-cms'
+                sh 'sudo mkdir /var/www/apps/staging/solefi-cms'
+                sh 'sudo cp -r ./* /var/www/apps/staging/solefi-cms'
             }
         }
         stage('Restart Supervisor') {
