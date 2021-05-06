@@ -5,6 +5,11 @@ from common.models import CommonFields
 # Create your models here.
 
 class InfoGrid(CommonFields):
+    name=models.SlugField (
+        null=False,
+        blank=False,
+        max_length=32
+    )
     page=models.ForeignKey (
         'pages.Page',
         related_name='page_info_grid',
