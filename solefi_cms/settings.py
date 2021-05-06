@@ -48,7 +48,9 @@ INSTALLED_APPS = [
     'colorfield',
     'tinymce',
     'common',
-    'users'
+    'users',
+    'pages',
+    'info_grid'
 ]
 
 MIDDLEWARE = [
@@ -242,7 +244,9 @@ JET_THEMES = [
 ]
 
 JET_SIDE_MENU_COMPACT = False
-TINYMCE_JS_ROOT = os.path.join(STATIC_ROOT, "tiny_mce/tiny_mce_src.js")
+
+TINYMCE_JS_ROOT = os.path.join(STATIC_URL, 'tinymce/js/tinymce/')
+TINYMCE_JS_URL = os.path.join(STATIC_URL, 'tinymce/js/tinymce/tinymce.min.js')
 
 TINYMCE_DEFAULT_CONFIG = {
     'height': 360,
@@ -274,7 +278,7 @@ TINYMCE_DEFAULT_CONFIG = {
 }
 
 TINYMCE_SPELLCHECKER = True
-TINYMCE_COMPRESSOR = True
+TINYMCE_COMPRESSOR = False
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 DJANGORESIZED_DEFAULT_SIZE = [1920, 1080]

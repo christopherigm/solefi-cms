@@ -8,7 +8,7 @@ def picture(instance, filename):
   return set_media_url( 'CommonPicture', filename)
 
 class Picture(CommonFields):
-    name = models.CharField (
+    title = models.CharField (
         max_length = 64,
         null = True,
         blank = True
