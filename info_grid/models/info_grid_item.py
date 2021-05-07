@@ -12,6 +12,10 @@ class InfoGridItem(Picture):
         blank=True,
         on_delete=models.CASCADE
     )
+    hide_on_mobile = models.BooleanField (
+        blank = False,
+        default = False
+    )
     info_grid=models.ForeignKey (
         'info_grid.InfoGrid',
         related_name='info_grid_item',
@@ -30,6 +34,15 @@ class InfoGridItem(Picture):
         default=1
     )
     icon=models.CharField (
+        null=True,
+        blank=True,
+        max_length=32
+    )
+    link=models.URLField (
+        null=True,
+        blank=True
+    )
+    button_text=models.CharField (
         null=True,
         blank=True,
         max_length=32
