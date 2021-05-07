@@ -3,11 +3,6 @@ pipeline {
     options {
         skipStagesAfterUnstable()
     }
-    environment {
-        MEDIA_DIR = '/var/www/apps/staging/solefi-cms/media'
-        LOCAL_MEDIA_EXIST = fileExists 'media'
-        REMOTE_MEDIA_EXIST = fileExists '$MEDIA_DIR'
-    }
     stages {
         stage('Build') {
             environment {
@@ -24,19 +19,6 @@ pipeline {
                 sh '$PY_WRAPPER -m pip install -r requirements.txt'
                 sh '$PY_WRAPPER manage.py migrate'
                 sh '$PY_WRAPPER manage.py collectstatic --noinput'
-            }
-        }
-        stage('Remove cached media') {
-            when { expression { LOCAL_MEDIA_EXIST == 'true' } }
-            steps {
-                sh 'sudo rm -rf media'
-            }
-        }
-        stage('Copy remote media') {
-            when { expression { REMOTE_MEDIA_EXIST == 'true' } }
-            steps {
-                sh 'sudo cp -r $MEDIA_DIR ./'
-                sh 'sudo chmod -R 777 $MEDIA_DIR'
             }
         }
         stage('Deploy') {
