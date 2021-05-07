@@ -8,7 +8,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.contrib.auth import authenticate
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-from django.http import Http404, HttpResponseBadRequest
+from django.http import Http404
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
