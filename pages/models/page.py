@@ -43,9 +43,5 @@ class Page (
     def __str__(self):
         return str(self.id)
 
-    def save(self, *args, **kwargs):
-        self.version=self.version + 1
-        super().save(*args, **kwargs)
-
     class JSONAPIMeta:
         resource_name="Page"

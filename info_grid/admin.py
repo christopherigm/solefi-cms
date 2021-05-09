@@ -20,4 +20,5 @@ class InfoGridAdmin(admin.ModelAdmin):
         'title',
         'page'
     ]
+    readonly_fields = ('version',)
 admin.site.register(InfoGrid, InfoGridAdmin)
