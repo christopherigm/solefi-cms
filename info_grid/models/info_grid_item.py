@@ -53,6 +53,11 @@ class InfoGridItem(Picture):
             self.title,
             self.info_grid.title
         )
+    
+    def save(self, *args, **kwargs):
+        self.info_grid.version=self.info_grid.version + 1
+        self.info_grid.save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     class JSONAPIMeta:
         resource_name="InfoGridItem"

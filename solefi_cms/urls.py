@@ -63,6 +63,7 @@ router.register(r'pages', PageViewSet)
 router.register(r'info-grids', InfoGridViewSet)
 router.register(r'info-grid-items', InfoGridItemViewSet)
 
+# https://github.com/axnsan12/drf-yasg
 schema_view = get_schema_view(
     openapi.Info(
         title='API Docs',

@@ -12,6 +12,15 @@ class CommonFields(models.Model):
     modified = models.DateTimeField (
         auto_now = True
     )
+    version=models.PositiveIntegerField (
+        default=1,
+        blank=False,
+        null=False
+    )
+    
+    def save(self, *args, **kwargs):
+        self.version=self.version + 1
+        super().save(*args, **kwargs)
 
     class Meta:
         abstract = True
