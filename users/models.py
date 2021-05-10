@@ -42,7 +42,7 @@ class UserProfile(CommonFields):
         on_delete = models.CASCADE
     )
     token = models.CharField (
-        max_length = 32,
+        max_length = 128,
         null = True,
         blank = True,
         unique = True
