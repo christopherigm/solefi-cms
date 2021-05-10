@@ -16,7 +16,7 @@ pipeline {
             }
             steps {
                 sh '. /home/christopher/.virtualenvs/solefi/bin/activate'
-                sh 'sudo cp /home/christopher/solefi-staging-env ./.env'
+                sh 'sudo cp /home/christopher/solefi-staging-env ./solefi_cms/.env'
                 sh '$PY_WRAPPER -m pip install -r requirements.txt'
                 sh '$PY_WRAPPER manage.py migrate'
                 sh '$PY_WRAPPER manage.py collectstatic --noinput'
