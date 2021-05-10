@@ -1,4 +1,4 @@
-import jwt
+import jwt, uuid
 from django.conf import settings
 from rest_framework_json_api import serializers
 from rest_framework_json_api.serializers import HyperlinkedModelSerializer
@@ -6,8 +6,8 @@ from rest_framework.validators import UniqueValidator
 from rest_framework_json_api.relations import ResourceRelatedField
 from django.contrib.auth.models import User, Group
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from django.core.mail import send_mail
-from users.models import UserAddress
+from django.core.mail import EmailMultiAlternatives
+from users.models import UserAddress, UserProfile
 from common.models import City
 from common.serializers import CitySerializer
 
@@ -70,14 +70,33 @@ class UserSerializer(HyperlinkedModelSerializer):
             setattr(user, i, validated_data[i])
         user.set_password(validated_data['password'])
         user.is_active = False
-        send_mail(
-            'Test email',
-            'Hello world.',
-            settings.EMAIL_HOST_USER,
-            [user.email],
-            fail_silently=False,
+        token = uuid.uuid4()
+        user.uuid = token
+        subject = 'Activa tu cuenta de Solefi'
+        from_email = settings.EMAIL_HOST_USER
+        to = user.email
+        text_content = 'Para continuar, por favor activa tu cuenta de Solefi en el siguiente <a href=activate/>link.</a>'
+        html_content = '''
+            <h2>Bienvenido a Solefi {0}!</h2>
+            <p>
+                Para continuar, por favor activa tu cuenta de Solefi con el siguiente
+                <a href="{1}activate/{2}">link.</a>
+            </p>
+            <span>El equipo de Solefi.</span>
+            <br/>
+        '''.format(
+            user.first_name,
+            settings.WEB_APP_URL,
+            token
         )
+        msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
         user.save()
+        profile = UserProfile()
+        profile.user = user
+        profile.token = token
+        profile.save()
         return user
 
     def update(self, instance, validated_data):

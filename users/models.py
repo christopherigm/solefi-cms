@@ -34,11 +34,6 @@ class UserAddress(Address):
     class JSONAPIMeta:
         resource_name = 'UserAddress'
 
-languages = (
-    ('EN', 'English'),
-    ('ES', 'Español')
-)
-
 class UserProfile(CommonFields):
     user = models.ForeignKey (
         User,
@@ -46,12 +41,11 @@ class UserProfile(CommonFields):
         blank = False,
         on_delete = models.CASCADE
     )
-    language = models.CharField (
-        max_length = 2,
-        choices = languages,
-        default = 'EN',
+    token = models.CharField (
+        max_length = 32,
         null = True,
-        blank = True
+        blank = True,
+        unique = True
     )
     newsletter = models.BooleanField (
         default=False,

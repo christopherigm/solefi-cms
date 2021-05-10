@@ -129,6 +129,8 @@ USE_TZ = True
 
 # https://data-flair.training/blogs/django-send-email/
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 EMAIL_HOST = env.EMAIL_HOST
 
 EMAIL_USE_TLS = env.EMAIL_USE_TLS
@@ -139,6 +141,9 @@ EMAIL_HOST_USER = env.EMAIL_HOST_USER
 
 EMAIL_HOST_PASSWORD = env.EMAIL_HOST_PASSWORD
 
+WEB_APP_URL = env.WEB_APP_URL
+
+API_URL = env.API_URL
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/

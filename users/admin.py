@@ -18,8 +18,6 @@ admin.site.register(UserAddress, UserAddressAdmin)
 
 class UserProfileAdmin(admin.ModelAdmin):
     list_display = [
-        'user',
-        'language'
+        'user'
     ]
-    list_filter = ('language',)
 admin.site.register(UserProfile, UserProfileAdmin)
