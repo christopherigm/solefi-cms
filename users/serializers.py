@@ -71,27 +71,27 @@ class UserSerializer(HyperlinkedModelSerializer):
         user.set_password(validated_data['password'])
         user.is_active = False
         token = uuid.uuid4()
-        user.uuid = token
-        subject = 'Activa tu cuenta de Solefi'
-        from_email = settings.EMAIL_HOST_USER
-        to = user.email
-        text_content = 'Para continuar, por favor activa tu cuenta de Solefi en el siguiente <a href=activate/>link.</a>'
-        html_content = '''
-            <h2>Bienvenido a Solefi {0}!</h2>
-            <p>
-                Para continuar, por favor activa tu cuenta de Solefi con el siguiente
-                <a href="{1}activate/{2}">link.</a>
-            </p>
-            <span>El equipo de Solefi.</span>
-            <br/>
-        '''.format(
-            user.first_name,
-            settings.WEB_APP_URL,
-            token
-        )
-        msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-        msg.attach_alternative(html_content, "text/html")
-        msg.send()
+        if settings.ENVIRONMENT != 'localhost':
+            subject = 'Activa tu cuenta de Solefi'
+            from_email = settings.EMAIL_HOST_USER
+            to = user.email
+            text_content = 'Para continuar, por favor activa tu cuenta de Solefi en el siguiente <a href=activate/>link.</a>'
+            html_content = '''
+                <h2>Bienvenido a Solefi {0}!</h2>
+                <p>
+                    Para continuar, por favor activa tu cuenta de Solefi con el siguiente
+                    <a href="{1}activate/{2}">link.</a>
+                </p>
+                <span>El equipo de Solefi.</span>
+                <br/>
+            '''.format(
+                user.first_name,
+                settings.WEB_APP_URL,
+                token
+            )
+            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
         user.save()
         profile = UserProfile()
         profile.user = user

@@ -37,7 +37,8 @@ from users.views import (
     UserViewSet,
     GroupViewSet,
     UserAddressViewSet,
-    Login
+    Login,
+    ActivateUser
 )
 from pages.views import (
     PageAddressViewSet,
@@ -87,6 +88,7 @@ urlpatterns = [
     url(r'^v1/token/refresh/$', TokenRefreshView.as_view(), name='token_refresh'),
     url(r'^v1/token/verify/$', TokenVerifyView.as_view(), name='token_verify'),
     url(r'^v1/login', Login.as_view(), name='login'),
+    url(r'^v1/activate-user', ActivateUser.as_view(), name='activate-user'),
     path('tinymce/', include('tinymce.urls')),
     path('v1/system/info', System.as_view()),
     url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
