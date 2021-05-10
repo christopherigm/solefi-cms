@@ -54,17 +54,23 @@ class LOCAL(Common):
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
         }
     }
+    API_URL = 'http://127.0.0.1:8000/v1/'
+    WEB_APP_URL = 'http://127.0.0.1:3000/'
 
 class QA(Common):
-    FOO = 'bar'
+    API_URL = 'https://api-qa.solefi.iguzman.com.mx/v1/'
+    WEB_APP_URL = 'https://qa-solefi.iguzman.com.mx/'
 
 class STAGING(Common):
-    FOO = 'bar'
+    API_URL = 'https://api-staging.solefi.iguzman.com.mx/v1/'
+    WEB_APP_URL = 'https://solefi.iguzman.com.mx/'
 
 class MASTER(Common):
     DEBUG = False
     JWT_ACCESS_EXPIRATION_MINUTES = 15
     JWT_REFRESH_EXPIRATION_MINUTES = 30
+    API_URL = 'https://api.solefi.iguzman.com.mx/v1/'
+    WEB_APP_URL = 'https://www.solefi.com.mx/'
 
 if ENVIRONMENT == 'qa':
     env = QA
