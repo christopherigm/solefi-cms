@@ -15,6 +15,7 @@ class CountryAdmin(admin.ModelAdmin):
     ]
     search_fields = ('name','code')
     list_filter = ('enabled',)
+    readonly_fields = ('version',)
 admin.site.register(Country, CountryAdmin)
 
 class StateAdmin(admin.ModelAdmin):
@@ -26,6 +27,7 @@ class StateAdmin(admin.ModelAdmin):
     ]
     search_fields = ('name','country')
     list_filter = ('enabled','country')
+    readonly_fields = ('version',)
 admin.site.register(State, StateAdmin)
 
 class CityAdmin(admin.ModelAdmin):
@@ -36,4 +38,5 @@ class CityAdmin(admin.ModelAdmin):
     ]
     search_fields = ('name','state')
     list_filter = ('enabled','state','state__country')
+    readonly_fields = ('version',)
 admin.site.register(City, CityAdmin)

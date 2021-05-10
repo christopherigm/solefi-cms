@@ -13,6 +13,7 @@ class InfoGridItemAdmin(admin.ModelAdmin):
         'icon',
         'info_grid'
     ]
+    readonly_fields = ('version',)
 admin.site.register(InfoGridItem, InfoGridItemAdmin)
 
 class InfoGridAdmin(admin.ModelAdmin):
