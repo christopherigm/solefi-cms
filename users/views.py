@@ -180,15 +180,14 @@ class ActivateUser(TokenObtainPairView):
         body = json.loads(body_unicode)
         profile = None
         user = None
-        if 'email' in body['data']['attributes'] and 'token' in body['data']['attributes']:
-            user = get_object_or_404(
-                User,
-                email = body['data']['attributes']['email']
-            )
+        if 'token' in body['data']['attributes']:
             profile = get_object_or_404(
                 UserProfile,
-                token = body['data']['attributes']['token'],
-                user = user
+                token = body['data']['attributes']['token']
+            )
+            user = get_object_or_404(
+                User,
+                id = profile.user.id
             )
         if profile:
             user.is_active =True
