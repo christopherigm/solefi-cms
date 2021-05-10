@@ -6,6 +6,7 @@ from rest_framework.validators import UniqueValidator
 from rest_framework_json_api.relations import ResourceRelatedField
 from django.contrib.auth.models import User, Group
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from django.core.mail import send_mail
 from users.models import UserAddress
 from common.models import City
 from common.serializers import CitySerializer
@@ -44,7 +45,7 @@ class UserSerializer(HyperlinkedModelSerializer):
         extra_kwargs = {
             'password': {
                 'write_only': True,
-                'required': False
+                'required': True
             },
             'is_superuser': {
                 'read_only': True
@@ -68,6 +69,14 @@ class UserSerializer(HyperlinkedModelSerializer):
         for i in validated_data:
             setattr(user, i, validated_data[i])
         user.set_password(validated_data['password'])
+        user.is_active = False
+        send_mail(
+            'Test email',
+            'Hello world.',
+            settings.EMAIL_HOST_USER,
+            [user.email],
+            fail_silently=False,
+        )
         user.save()
         return user
 

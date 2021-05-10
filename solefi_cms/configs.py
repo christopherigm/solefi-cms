@@ -1,27 +1,26 @@
 import os
 from pathlib import Path
+import environ
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-environment = None
-db_name = 'iguzman'
-db_user = 'iguzman'
-db_password = 'iguzman'
-email_id = 'email@mail.com'
-email_password = 'password'
+environment = environ.Env(
+    ENVIRONMENT=(str, 'localhost'),
+    DB_NAME=(str, 'iguzman'),
+    DB_USER=(str, 'iguzman'),
+    DB_PASSWORD=(str, 'iguzman'),
+    EMAIL_HOST_USER=(str, 'john@doe.com'),
+    EMAIL_HOST_PASSWORD=(str, 'password')
+)
 
-if 'env' in os.environ:
-    environment = os.environ['env']
-if 'db_name' in os.environ:
-    db_name = os.environ['db_name']
-if 'db_user' in os.environ:
-    db_user = os.environ['db_user']
-if 'db_password' in os.environ:
-    db_password = os.environ['db_password']
-if 'email_id' in os.environ:
-    email_id = os.environ['email_id']
-if 'email_password' in os.environ:
-    email_password = os.environ['email_password']
+environ.Env.read_env()
+
+ENVIRONMENT = environment('ENVIRONMENT')
+DB_NAME = environment('DB_NAME')
+DB_USER = environment('DB_USER')
+DB_PASSWORD = environment('DB_PASSWORD')
+EMAIL_HOST_USER = environment('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = environment('EMAIL_HOST_PASSWORD')
 
 class Common:
     SITE_HEADER = 'Solefi'
@@ -37,15 +36,16 @@ class Common:
     DATABASES = {
         'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': db_name,
-        'USER': db_user,
-        'PASSWORD': db_password,
+        'NAME': DB_NAME,
+        'USER': DB_USER,
+        'PASSWORD': DB_PASSWORD,
         'HOST': '127.0.0.1',
         'PORT': '5432'
         }
     }
-    EMAIL_HOST_USER = email_id
-    EMAIL_HOST_PASSWORD = email_password
+    EMAIL_HOST_USER = EMAIL_HOST_USER
+    EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
+    ENVIRONMENT = ENVIRONMENT
 
 class LOCAL(Common):
     DATABASES = {
@@ -66,11 +66,11 @@ class MASTER(Common):
     JWT_ACCESS_EXPIRATION_MINUTES = 15
     JWT_REFRESH_EXPIRATION_MINUTES = 30
 
-if environment == 'qa':
+if ENVIRONMENT == 'qa':
     env = QA
-elif environment == 'staging':
+elif ENVIRONMENT == 'staging':
     env = STAGING
-elif environment == 'master':
+elif ENVIRONMENT == 'master':
     env = MASTER
 else:
     env = LOCAL

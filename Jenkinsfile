@@ -25,6 +25,7 @@ pipeline {
             steps {
                 sh 'sudo rm -rf /var/www/apps/staging/solefi-cms'
                 sh 'sudo mkdir /var/www/apps/staging/solefi-cms'
+                sh 'sudo cp /home/christopher/solefi-staging-env ./.env'
                 sh 'sudo cp -r ./* /var/www/apps/staging/solefi-cms'
             }
         }
@@ -32,6 +33,8 @@ pipeline {
             steps {
                 sh 'sudo supervisorctl reread'
                 sh 'sudo supervisorctl update'
+                sh 'sudo supervisorctl solefi_cms_staging_0'
+                sh 'sudo supervisorctl solefi_cms_staging_1'
             }
         }
     }
