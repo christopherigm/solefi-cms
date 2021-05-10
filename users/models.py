@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from django.contrib.auth.models import User
 from common.models import (
@@ -41,11 +42,10 @@ class UserProfile(CommonFields):
         blank = False,
         on_delete = models.CASCADE
     )
-    token = models.CharField (
-        max_length = 128,
+    token = models.UUIDField (
         null = True,
         blank = True,
-        unique = True
+        default=uuid.uuid4
     )
     newsletter = models.BooleanField (
         default=False,
