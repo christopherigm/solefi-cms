@@ -33,8 +33,8 @@ pipeline {
             steps {
                 sh 'sudo supervisorctl reread'
                 sh 'sudo supervisorctl update'
-                sh 'sudo supervisorctl solefi_cms_staging_0'
-                sh 'sudo supervisorctl solefi_cms_staging_1'
+                sh 'sudo supervisorctl restart solefi_cms_staging_0'
+                sh 'sudo supervisorctl restart solefi_cms_staging_1'
             }
         }
     }
