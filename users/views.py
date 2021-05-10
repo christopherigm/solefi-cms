@@ -21,7 +21,7 @@ from common.permissions import (
     IsAdminOrBelongsToItSelf
 )
 from django.contrib.auth.models import User, Group
-from users.models import UserAddress
+from users.models import UserAddress, UserProfile
 from users.serializers import (
     GroupSerializer,
     UserSerializer,
@@ -143,7 +143,6 @@ class UserAddressViewSet (
             return UserAddress.objects.all()
         return UserAddress.objects.filter(user=user)
 
-
 @method_decorator(csrf_exempt, name='dispatch')
 class Login(TokenObtainPairView):
     def post(self, request, *args, **kwargs):
@@ -172,3 +171,34 @@ class Login(TokenObtainPairView):
         else:
             user = UserLoginSerializer(user, many=False, context={'request': request})
             return Response(user.data)
+
+@method_decorator(csrf_exempt, name='dispatch')
+class ActivateUser(TokenObtainPairView):
+    def post(self, request, *args, **kwargs):
+        is_valid = False  
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        profile = None
+        user = None
+        if 'email' in body['data']['attributes'] and 'token' in body['data']['attributes']:
+            user = get_object_or_404(
+                User,
+                email = body['data']['attributes']['email']
+            )
+            profile = get_object_or_404(
+                UserProfile,
+                token = body['data']['attributes']['token'],
+                user = user
+            )
+        if profile:
+            user.is_active =True
+            user.save()
+            profile.token = None
+            profile.save()
+            return Response( data = {
+                'success': True
+            }, status = 200 )
+        return Response( data = [{
+            'detail': 'Wrong credentials',
+            'status': 400
+        }], status = status.HTTP_400_BAD_REQUEST )
