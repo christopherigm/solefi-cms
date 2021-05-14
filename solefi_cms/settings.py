@@ -19,13 +19,13 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-ENVIRONMENT=env.ENVIRONMENT
+ENVIRONMENT = env.ENVIRONMENT
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-egltbr811lf0lx#81z)@+z2z#@8o16s+*3+t-5eu9vgczf)ylv'
+SECRET_KEY = env.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.DEBUG
@@ -205,11 +205,11 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta (
-        minutes = env.JWT_ACCESS_EXPIRATION_MINUTES
+    'ACCESS_TOKEN_LIFETIME': timedelta(
+        minutes=env.JWT_ACCESS_EXPIRATION_MINUTES
     ),
-    'REFRESH_TOKEN_LIFETIME': timedelta (
-        minutes = env.JWT_REFRESH_EXPIRATION_MINUTES
+    'REFRESH_TOKEN_LIFETIME': timedelta(
+        minutes=env.JWT_REFRESH_EXPIRATION_MINUTES
     ),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
@@ -234,9 +234,9 @@ SIMPLE_JWT = {
 
 JET_THEMES = [
     {
-        'theme': 'default', # theme folder name
-        'color': '#47bac1', # color of the theme's button in user menu
-        'title': 'Default' # theme title
+        'theme': 'default',  # theme folder name
+        'color': '#47bac1',  # color of the theme's button in user menu
+        'title': 'Default'  # theme title
     },
     {
         'theme': 'green',
@@ -307,10 +307,11 @@ DJANGORESIZED_DEFAULT_SIZE = [1920, 1080]
 DJANGORESIZED_DEFAULT_QUALITY = 90
 DJANGORESIZED_DEFAULT_KEEP_META = True
 DJANGORESIZED_DEFAULT_FORCE_FORMAT = 'JPEG'
-DJANGORESIZED_DEFAULT_FORMAT_EXTENSIONS = { 'JPEG': ".jpg" }
+DJANGORESIZED_DEFAULT_FORMAT_EXTENSIONS = {'JPEG': '.jpg'}
 DJANGORESIZED_DEFAULT_NORMALIZE_ROTATION = True
+WORKER = 0
 
-WORKER=0
+
 if 'worker' in os.environ:
     WORKER = os.environ['worker']
 

@@ -146,20 +146,19 @@ class UserAddressViewSet (
 @method_decorator(csrf_exempt, name='dispatch')
 class Login(TokenObtainPairView):
     def post(self, request, *args, **kwargs):
-        is_valid = False  
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
         if 'email' in body['data'] and 'password' in body['data']:
             user = get_object_or_404(
                 User,
-                is_active = True,
-                email = body['data']['email']
+                is_active=True,
+                email=body['data']['email']
             )
         if 'username' in body['data'] and 'password' in body['data']:
             user = get_object_or_404(
                 User,
-                is_active = True,
-                username = body['data']['username']
+                is_active=True,
+                username=body['data']['username']
             )
         if user:
             is_valid = authenticate(username=user.username, password=body['data']['password'])
@@ -169,14 +168,15 @@ class Login(TokenObtainPairView):
                 'status': 400
             }], status = status.HTTP_400_BAD_REQUEST )
         else:
+            user.user_agent = self.request.META.get('HTTP_USER_AGENT')
+            user.remote_addr = self.request.META.get('REMOTE_ADDR')
             user = UserLoginSerializer(user, many=False, context={'request': request})
             return Response(user.data)
 
 @method_decorator(csrf_exempt, name='dispatch')
 class ActivateUser(TokenObtainPairView):
     def post(self, request, *args, **kwargs):
-        is_valid = False  
-        body_unicode = request.body.decode('utf-8')
+        body_unicode=request.body.decode('utf-8')
         body = json.loads(body_unicode)
         profile = None
         user = None
@@ -190,7 +190,7 @@ class ActivateUser(TokenObtainPairView):
                 id = profile.user.id
             )
         if profile:
-            user.is_active =True
+            user.is_active = True
             user.save()
             profile.token = None
             profile.save()
