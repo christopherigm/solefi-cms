@@ -145,9 +145,10 @@ class UserLoginSerializer(
     refresh = serializers.SerializerMethodField()
 
     def get_access(self, user):
-        token = super().get_token(user)
+        token = super().get_token(user).access_token
         token['admin'] = user.is_superuser
-        token['token_type'] = 'access'
+        token['user_agent'] = user.user_agent
+        token['ip'] = user.remote_addr
         return str(token)
 
     def get_refresh(self, user):

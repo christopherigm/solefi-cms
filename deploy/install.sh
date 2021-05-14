@@ -58,30 +58,6 @@ then
     exit 1;
 fi
 
-echo "Enter DB Name (db_name):"
-read db_name
-if [ ! -n "$db_name" ]
-then
-	echo "Error: DB Name variable not provided: db_name";
-    exit 1;
-fi
-
-echo "Enter DB User (db_user):"
-read db_user
-if [ ! -n "$db_user" ]
-then
-	echo "Error: DB User variable not provided: db_user";
-    exit 1;
-fi
-
-echo "Enter DB Password (db_password):"
-read db_password
-if [ ! -n "$db_password" ]
-then
-	echo "Error: DB Password variable not provided: db_password";
-    exit 1;
-fi
-
 echo "Enter App ID (0):"
 read app_id
 if [ ! -n "$app_id" ]
@@ -98,42 +74,22 @@ then
     exit 1;
 fi
 
-echo "Enter Email ID (john@doe.com):"
-read email_id
-if [ ! -n "$email_id" ]
-then
-	echo "Error: Email ID variable not provided: 2";
-    exit 1;
-fi
-
-echo "Enter Email password (******):"
-read email_password
-if [ ! -n "$email_password" ]
-then
-	echo "Error: Email password variable not provided: 2";
-    exit 1;
-fi
-
 # ============ Functions ============
 # $1 type -> nginx / supervisor
 PopulateFile () {
     file_name="$port.$dns.$envt.conf";
     sudo cp $1.conf $file_name;
-    sudo sed -i "s/PORT/$port/g" $file_name;
-    sudo sed -i "s/DNS/$dns/g" $file_name;
-    sudo sed -i "s/ENVT/$envt/g" $file_name;
-    sudo sed -i "s/FOLDER/$folder/g" $file_name;
-    sudo sed -i "s/PROCESS_NAME/$process_name/g" $file_name;
-    sudo sed -i "s/VENV/$venv/g" $file_name;
-    sudo sed -i "s/OS_USER/$USER/g" $file_name;
-    sudo sed -i "s/DJANGO_APP_NAME/$django_app_name/g" $file_name;
-    sudo sed -i "s/DB_NAME/$db_name/g" $file_name;
-    sudo sed -i "s/DB_USER/$db_user/g" $file_name;
-    sudo sed -i "s/DB_PASSWORD/$db_password/g" $file_name;
-    sudo sed -i "s/APP_ID/$app_id/g" $file_name;
-    sudo sed -i "s/DJANGO_WORKERS/$django_workers/g" $file_name;
-    sudo sed -i "s/EMAIL_ID/$email_id/g" $file_name;
-    sudo sed -i "s/EMAIL_PASSWORD/$email_password/g" $file_name;
+    sudo chmod 775 $file_name;
+    sed -i "s/PORT/$port/g" $file_name;
+    sed -i "s/DNS/$dns/g" $file_name;
+    sed -i "s/ENVT/$envt/g" $file_name;
+    sed -i "s/FOLDER/$folder/g" $file_name;
+    sed -i "s/PROCESS_NAME/$process_name/g" $file_name;
+    sed -i "s/VENV/$venv/g" $file_name;
+    sed -i "s/OS_USER/$USER/g" $file_name;
+    sed -i "s/DJANGO_APP_NAME/$django_app_name/g" $file_name;
+    sed -i "s/APP_ID/$app_id/g" $file_name;
+    sed -i "s/DJANGO_WORKERS/$django_workers/g" $file_name;
 }
 
 echo "Create Nginx configuration? (y/n)"
