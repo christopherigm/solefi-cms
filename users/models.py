@@ -6,7 +6,6 @@ from common.models import (
     Address,
     City
 )
-from common.validators import ModelValidators
 
 # Create your models here.
 

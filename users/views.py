@@ -1,5 +1,5 @@
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
-import datetime, json, jwt
+import json, jwt
 from django.conf import settings
 from rest_framework import mixins, status
 from rest_framework.permissions import IsAuthenticated
@@ -9,7 +9,6 @@ from django.contrib.auth import authenticate
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from django.http import Http404
-from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from rest_framework_simplejwt.views import TokenObtainPairView
