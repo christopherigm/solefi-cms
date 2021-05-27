@@ -1,4 +1,4 @@
-import jwt, uuid
+import uuid
 from django.conf import settings
 from rest_framework_json_api import serializers
 from rest_framework_json_api.serializers import HyperlinkedModelSerializer
@@ -9,7 +9,6 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.core.mail import EmailMultiAlternatives
 from users.models import UserAddress, UserProfile
 from common.models import City
-from common.serializers import CitySerializer
 
 # Create your serializers here.
 
@@ -118,7 +117,7 @@ class UserAddressSerializer(HyperlinkedModelSerializer):
         required = False
     )
     included_serializers = {
-        'city': CitySerializer,
+        'city': 'common.serializers.CitySerializer',
         'user': UserSerializer
     }
 

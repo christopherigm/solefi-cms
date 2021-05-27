@@ -77,9 +77,9 @@ fi
 # ============ Functions ============
 # $1 type -> nginx / supervisor
 PopulateFile () {
-    file_name="$port.$dns.$envt.conf";
-    sudo cp $1.conf $file_name;
-    sudo chmod 775 $file_name;
+    file_name="$port.$dns.conf";
+    cp "deploy/$1.conf" $file_name;
+    chmod 775 $file_name;
     sed -i "s/PORT/$port/g" $file_name;
     sed -i "s/DNS/$dns/g" $file_name;
     sed -i "s/ENVT/$envt/g" $file_name;
@@ -111,7 +111,7 @@ then
         sudo nginx -t;
         sudo service nginx restart;
     fi
-    sudo rm ./$file_name;
+    rm ./$file_name;
 fi
 
 echo "Create Supervisor configuration? (y/n)"
@@ -132,7 +132,7 @@ then
         sudo supervisorctl update;
         sudo supervisorctl status;
     fi
-    sudo rm ./$file_name;
+    rm ./$file_name;
 fi
 
 echo "Done"
