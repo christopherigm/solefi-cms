@@ -13,8 +13,8 @@ class InfoGrid(CommonFields):
     page=models.ForeignKey (
         'pages.Page',
         related_name='page_info_grid',
-        null=True,
-        blank=True,
+        null=False,
+        blank=False,
         on_delete=models.CASCADE
     )
     title=models.CharField (
@@ -43,7 +43,9 @@ class InfoGrid(CommonFields):
     )
 
     def __str__(self):
-        return self.title
+        if self.title:
+            return self.title
+        return self.name
 
     class JSONAPIMeta:
         resource_name="InfoGrid"

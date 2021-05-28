@@ -8,8 +8,8 @@ class InfoGridItem(Picture):
     page=models.ForeignKey (
         'pages.Page',
         related_name='page_infoGrid_item',
-        null=True,
-        blank=True,
+        null=False,
+        blank=False,
         on_delete=models.CASCADE
     )
     hide_on_mobile = models.BooleanField (
@@ -19,8 +19,8 @@ class InfoGridItem(Picture):
     info_grid=models.ForeignKey (
         'info_grid.InfoGrid',
         related_name='info_grid_item',
-        null=True,
-        blank=True,
+        null=False,
+        blank=False,
         on_delete=models.CASCADE
     )
     color=ColorField(
@@ -49,10 +49,14 @@ class InfoGridItem(Picture):
     )
 
     def __str__(self):
-        return '{0} [{1}]'.format(
-            self.title,
-            self.info_grid.title
-        )
+        if self.title:
+            return '{0} [{1}]'.format(
+                self.title,
+                self.info_grid.name
+            )
+        return 'Slide [{0}]'.format(
+                self.info_grid.name
+            ) 
     
     def save(self, *args, **kwargs):
         self.info_grid.version=self.info_grid.version + 1

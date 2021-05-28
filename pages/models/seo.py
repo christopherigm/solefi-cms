@@ -22,18 +22,18 @@ class SEOInfo (models.Model):
         default='Web Page'
     )
     og_title=models.CharField (
-        null=True,
-        blank=True,
+        null=False,
+        blank=False,
         max_length=64
     )
     og_site_name=models.CharField (
-        null=True,
-        blank=True,
+        null=False,
+        blank=False,
         max_length=64
     )
     og_description= models.CharField (
-        null=True,
-        blank=True,
+        null=False,
+        blank=False,
         max_length=128
     )
     img_og_image=ResizedImageField (
