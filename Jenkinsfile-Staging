@@ -14,7 +14,7 @@ pipeline {
                 sh 'sudo cp /home/christopher/solefi-staging-django-env ./solefi_cms/.env'
                 sh '$PY_WRAPPER -m pip install -r requirements.txt'
                 sh '$PY_WRAPPER manage.py migrate'
-                sh cd'$PY_WRAPPER manage.py collectstatic --noinput'
+                sh '$PY_WRAPPER manage.py collectstatic --noinput'
             }
         }
         stage('Deploy') {
