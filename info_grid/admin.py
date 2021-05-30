@@ -18,6 +18,7 @@ admin.site.register(InfoGridItem, InfoGridItemAdmin)
 
 class InfoGridAdmin(admin.ModelAdmin):
     list_display = [
+        'name',
         'title',
         'page'
     ]
