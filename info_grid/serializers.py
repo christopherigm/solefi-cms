@@ -32,6 +32,7 @@ class InfoGridSerializer(HyperlinkedModelSerializer):
     )
     included_serializers = {
         'items': InfoGridItemSerializer,
+        'page': 'pages.serializers.PageSerializer'
     }
 
     class Meta:
