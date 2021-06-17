@@ -4,7 +4,6 @@ from pages.models import Page, PageAddress
 from pages.serializers import (
   PageAddressSerializer
 )
-from common.serializers import FontSerializer
 
 class PageSerializer(HyperlinkedModelSerializer):
     address=ResourceRelatedField (
