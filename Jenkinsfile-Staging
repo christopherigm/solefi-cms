@@ -19,9 +19,10 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh 'sudo rm -rf /var/www/apps/staging/solefi-cms'
-                sh 'sudo mkdir /var/www/apps/staging/solefi-cms'
-                sh 'sudo cp -r ./* /var/www/apps/staging/solefi-cms'
+                sh 'sudo chmod -R 777 /hdd/apps/staging/'
+                sh 'sudo rm -rf /hdd/apps/staging/solefi-cms'
+                sh 'sudo mkdir /hdd/apps/staging/solefi-cms'
+                sh 'sudo cp -r ./* /hdd/apps/staging/solefi-cms'
             }
         }
         stage('Restart Supervisor') {
