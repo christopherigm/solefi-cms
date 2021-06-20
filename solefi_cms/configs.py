@@ -63,16 +63,19 @@ class LOCAL(Common):
     }
     API_URL = 'http://127.0.0.1:8000/v1/'
     WEB_APP_URL = 'http://127.0.0.1:3000/'
+    MEDIA_ROOT=os.path.join(BASE_DIR, 'media')
 
 
 class QA(Common):
     API_URL = 'https://api-qa.solefi.iguzman.com.mx/v1/'
     WEB_APP_URL = 'https://qa-solefi.iguzman.com.mx/'
+    MEDIA_ROOT=os.path.join('/hdd/media/qa/solefi/', 'media')
 
 
 class STAGING(Common):
     API_URL = 'https://api-staging.solefi.iguzman.com.mx/v1/'
     WEB_APP_URL = 'https://solefi.iguzman.com.mx/'
+    MEDIA_ROOT=os.path.join('/hdd/media/staging/solefi/', 'media')
 
 
 class MASTER(Common):
@@ -81,6 +84,7 @@ class MASTER(Common):
     JWT_REFRESH_EXPIRATION_MINUTES = 30
     API_URL = 'https://api.solefi.iguzman.com.mx/v1/'
     WEB_APP_URL = 'https://www.solefi.com.mx/'
+    MEDIA_ROOT=os.path.join('/hdd/media/master/solefi/', 'media')
 
 
 if ENVIRONMENT == 'qa':
