@@ -10,6 +10,7 @@ pipeline {
                 env = 'staging'
             }
             steps {
+                sh 'sudo chmod -R 777 /opt/virtualenvs/solefi/'
                 sh '. /opt/virtualenvs/solefi/bin/activate'
                 sh 'sudo cp /home/christopher/solefi-staging-django-env ./solefi_cms/.env'
                 sh '$PY_WRAPPER -m pip install -r requirements.txt'

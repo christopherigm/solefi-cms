@@ -5,7 +5,7 @@ from common.tools import set_media_url
 from django_resized import ResizedImageField
 
 def picture(instance, filename):
-  return set_media_url( 'CommonPicture', filename)
+    return set_media_url('CommonPicture', filename)
 
 class Picture(CommonFields):
     title = models.CharField (
