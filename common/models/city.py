@@ -21,8 +21,8 @@ class City(CommonFields):
 
     def __str__(self):
         return '{0} - {1}'.format (
-            self.state.name,
-            self.name
+            self.name,
+            self.state.name
         )
 
     class JSONAPIMeta:

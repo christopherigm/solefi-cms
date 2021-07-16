@@ -1,5 +1,6 @@
 from django.db import models
 from django_resized import ResizedImageField
+from tinymce.models import HTMLField
 from common.models import CommonFields
 from common.tools import set_media_url
 from pages.models import (
@@ -25,8 +26,36 @@ class Page (
     img_logo=ResizedImageField (
         null=True,
         blank=False,
-        size=[256, 256],
-        quality=95,
+        size=[512, 512],
+        quality=100,
+        upload_to=logo
+    )
+    platform_title=models.CharField (
+        null=False,
+        blank=False,
+        max_length=32,
+        default='Plataforma'
+    )
+    platform_description = HTMLField (
+        null=False,
+        blank=False,
+        default='Todo lo que necesitas para tu empresa en un sólo lugar.'
+    )
+    platform_link=models.URLField(
+        null=False,
+        blank=False,
+        default='https://www.listo.mx/entrar'
+    )
+    platform_promo_link=models.URLField(
+        null=False,
+        blank=False,
+        default='https://listo.mx/registro?cobranding_id=6'
+    )
+    img_platform=ResizedImageField (
+        null=True,
+        blank=False,
+        size=[1024, 1024],
+        quality=93,
         upload_to=logo
     )
     views=models.PositiveIntegerField (
@@ -34,14 +63,9 @@ class Page (
         blank=False,
         null=False
     )
-    version=models.PositiveIntegerField (
-        default=1,
-        blank=False,
-        null=False
-    )
 
     def __str__(self):
-        return str(self.id)
+        return self.og_title
 
     class JSONAPIMeta:
         resource_name="Page"

@@ -9,6 +9,14 @@ class PageAddress(Address):
         blank=False,
         on_delete=models.CASCADE
     )
+    local_region = models.CharField(
+        null = True,
+        blank = True,
+        max_length = 64,
+        validators = [
+            ModelValidators.name
+        ]
+    )
     city=models.ForeignKey (
         'common.City',
         related_name='page_address_city',
