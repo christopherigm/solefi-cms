@@ -4,8 +4,8 @@ from common.tools import set_media_url
 from django_resized import ResizedImageField
 
 class PageType(Enum):
-    WebPage="Web Page"
-    Article="Article"
+    WebPage='Web Page'
+    Article='Article'
 
 def picture(instance, filename):
     return set_media_url( 'Page', filename)
