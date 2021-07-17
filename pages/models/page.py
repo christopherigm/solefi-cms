@@ -58,6 +58,16 @@ class Page (
         quality=93,
         upload_to=logo
     )
+    company_video_title=models.CharField (
+        null=False,
+        blank=False,
+        max_length=128,
+        default='Mira nuestro video corporativo'
+    )
+    company_video=models.FileField (
+        null=True,
+        blank=True
+    )
     views=models.PositiveIntegerField (
         default=1,
         blank=False,

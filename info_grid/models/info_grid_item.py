@@ -1,8 +1,16 @@
 from django.db import models
 from colorfield.fields import ColorField
 from common.models import Picture
+from enum import Enum
 
 # Create your models here.
+
+class ImagePosition(Enum):
+    TOP='top'
+    BOTTOM='bottom'
+    LEFT='left'
+    RIGHT='right'
+
 
 class InfoGridItem(Picture):
     page=models.ForeignKey (
@@ -23,10 +31,27 @@ class InfoGridItem(Picture):
         blank=False,
         on_delete=models.CASCADE
     )
+    image_position=models.CharField(
+        null=True,
+        blank=True,
+        max_length=32,
+        choices=[(i.value, i.value) for i in ImagePosition],
+        default='left'
+    )
     color=ColorField(
         null=True,
         blank=True,
         default='#42a5f5'
+    )
+    secondary_color=ColorField(
+        null=True,
+        blank=True,
+        default='#42a5f5'
+    )
+    gradient_degree=models.PositiveIntegerField (
+        null=True,
+        blank=True,
+        default=45
     )
     order=models.PositiveIntegerField (
         null=True,
