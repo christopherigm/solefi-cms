@@ -6,7 +6,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 environment = environ.Env(
     SECRET_KEY=(str, 'key'),
-    ENVIRONMENT=(str, 'localhost'),
+    ENVIRONMENT=(str, 'local'),
     DB_NAME=(str, 'iguzman'),
     DB_USER=(str, 'iguzman'),
     DB_PASSWORD=(str, 'iguzman'),
@@ -14,6 +14,7 @@ environment = environ.Env(
     EMAIL_HOST_PASSWORD=(str, 'password')
 )
 
+SERVER_APP_FOLDER_NAME = 'solefi-cms'
 
 environ.Env.read_env()
 
@@ -32,6 +33,8 @@ class Common:
     SITE_HEADER = 'Solefi'
     INDEX_TITLE = 'CMS'
     SITE_TITLE = 'CMS'
+    API_DNS = 'http://127.0.0.1:8000/'
+    API_URL = '{}v1/'.format(API_DNS)
     EMAIL_HOST = 'smtp.gmail.com'
     EMAIL_USE_TLS = True
     EMAIL_PORT = 587
@@ -61,35 +64,26 @@ class LOCAL(Common):
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
         }
     }
-    API_URL = 'http://127.0.0.1:8000/v1/'
     WEB_APP_URL = 'http://127.0.0.1:3000/'
     MEDIA_ROOT=os.path.join(BASE_DIR, 'media')
 
 
-class QA(Common):
-    API_URL = 'https://api-qa.solefi.iguzman.com.mx/v1/'
-    WEB_APP_URL = 'https://qa-solefi.iguzman.com.mx/'
-    MEDIA_ROOT=os.path.join('/hdd/media/qa/solefi/', 'media')
-
-
 class STAGING(Common):
-    API_URL = 'https://api-staging.solefi.iguzman.com.mx/v1/'
+    API_DNS = 'https://api.solefi.staging.iguzman.com.mx/'
     WEB_APP_URL = 'https://solefi.iguzman.com.mx/'
-    MEDIA_ROOT=os.path.join('/hdd/media/staging/solefi/', 'media')
+    MEDIA_ROOT='/var/www/static/staging/{}/media'.format(SERVER_APP_FOLDER_NAME)
 
 
 class MASTER(Common):
     DEBUG = False
     JWT_ACCESS_EXPIRATION_MINUTES = 15
     JWT_REFRESH_EXPIRATION_MINUTES = 30
-    API_URL = 'https://api.solefi.iguzman.com.mx/v1/'
+    API_DNS = 'https://api.solefi.iguzman.com.mx/'
     WEB_APP_URL = 'https://www.solefi.com.mx/'
-    MEDIA_ROOT=os.path.join('/hdd/media/master/solefi/', 'media')
+    MEDIA_ROOT='/var/www/static/master/{}/media'.format(SERVER_APP_FOLDER_NAME)
 
 
-if ENVIRONMENT == 'qa':
-    env = QA
-elif ENVIRONMENT == 'staging':
+if ENVIRONMENT == 'staging':
     env = STAGING
 elif ENVIRONMENT == 'master':
     env = MASTER
