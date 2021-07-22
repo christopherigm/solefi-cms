@@ -19,12 +19,13 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+ENVIRONMENT = env.ENVIRONMENT
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-egltbr811lf0lx#81z)@+z2z#@8o16s+*3+t-5eu9vgczf)ylv'
+SECRET_KEY = env.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.DEBUG
@@ -44,12 +45,19 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'drf_yasg',
+    'corsheaders',
     'django_filters',
     'colorfield',
-    'tinymce'
+    'tinymce',
+    'common',
+    'users',
+    'pages',
+    'info_grid'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -60,6 +68,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'solefi_cms.urls'
+CORS_ORIGIN_ALLOW_ALL = True
 
 TEMPLATES = [
     {
@@ -118,6 +127,23 @@ USE_L10N = True
 
 USE_TZ = True
 
+# https://data-flair.training/blogs/django-send-email/
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = env.EMAIL_HOST
+
+EMAIL_USE_TLS = env.EMAIL_USE_TLS
+
+EMAIL_PORT = env.EMAIL_PORT
+
+EMAIL_HOST_USER = env.EMAIL_HOST_USER
+
+EMAIL_HOST_PASSWORD = env.EMAIL_HOST_PASSWORD
+
+WEB_APP_URL = env.WEB_APP_URL
+
+API_URL = env.API_URL
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
@@ -126,7 +152,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATIC_URL = '/static/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = env.MEDIA_ROOT
+
+API_DNS = env.API_DNS
 
 MEDIA_URL = '/media/'
 
@@ -179,11 +207,11 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta (
-        minutes = env.JWT_ACCESS_EXPIRATION_MINUTES
+    'ACCESS_TOKEN_LIFETIME': timedelta(
+        minutes=env.JWT_ACCESS_EXPIRATION_MINUTES
     ),
-    'REFRESH_TOKEN_LIFETIME': timedelta (
-        minutes = env.JWT_REFRESH_EXPIRATION_MINUTES
+    'REFRESH_TOKEN_LIFETIME': timedelta(
+        minutes=env.JWT_REFRESH_EXPIRATION_MINUTES
     ),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
@@ -208,9 +236,9 @@ SIMPLE_JWT = {
 
 JET_THEMES = [
     {
-        'theme': 'default', # theme folder name
-        'color': '#47bac1', # color of the theme's button in user menu
-        'title': 'Default' # theme title
+        'theme': 'default',  # theme folder name
+        'color': '#47bac1',  # color of the theme's button in user menu
+        'title': 'Default'  # theme title
     },
     {
         'theme': 'green',
@@ -240,7 +268,9 @@ JET_THEMES = [
 ]
 
 JET_SIDE_MENU_COMPACT = False
-TINYMCE_JS_ROOT = os.path.join(STATIC_ROOT, "tiny_mce/tiny_mce_src.js")
+
+TINYMCE_JS_ROOT = os.path.join(STATIC_URL, 'tinymce/js/tinymce/')
+TINYMCE_JS_URL = os.path.join(STATIC_URL, 'tinymce/js/tinymce/tinymce.min.js')
 
 TINYMCE_DEFAULT_CONFIG = {
     'height': 360,
@@ -272,24 +302,20 @@ TINYMCE_DEFAULT_CONFIG = {
 }
 
 TINYMCE_SPELLCHECKER = True
-TINYMCE_COMPRESSOR = True
+TINYMCE_COMPRESSOR = False
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 DJANGORESIZED_DEFAULT_SIZE = [1920, 1080]
 DJANGORESIZED_DEFAULT_QUALITY = 90
 DJANGORESIZED_DEFAULT_KEEP_META = True
 DJANGORESIZED_DEFAULT_FORCE_FORMAT = 'JPEG'
-DJANGORESIZED_DEFAULT_FORMAT_EXTENSIONS = { 'JPEG': ".jpg" }
+DJANGORESIZED_DEFAULT_FORMAT_EXTENSIONS = {'JPEG': '.jpg'}
 DJANGORESIZED_DEFAULT_NORMALIZE_ROTATION = True
+WORKER = 0
 
-WORKER=0
+
 if 'worker' in os.environ:
     WORKER = os.environ['worker']
-
-ENVIRONMENT=''
-if 'env' in os.environ:
-    ENVIRONMENT = os.environ['env']
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

@@ -1,32 +1,40 @@
 import os
 from pathlib import Path
+import environ
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-environment = None
-db_name = 'iguzman'
-db_user = 'iguzman'
-db_password = 'iguzman'
-email_id = 'email@mail.com'
-email_password = 'password'
+environment = environ.Env(
+    SECRET_KEY=(str, 'key'),
+    ENVIRONMENT=(str, 'local'),
+    DB_NAME=(str, 'iguzman'),
+    DB_USER=(str, 'iguzman'),
+    DB_PASSWORD=(str, 'iguzman'),
+    EMAIL_HOST_USER=(str, 'john@doe.com'),
+    EMAIL_HOST_PASSWORD=(str, 'password')
+)
 
-if 'env' in os.environ:
-    environment = os.environ['env']
-if 'db_name' in os.environ:
-    db_name = os.environ['db_name']
-if 'db_user' in os.environ:
-    db_user = os.environ['db_user']
-if 'db_password' in os.environ:
-    db_password = os.environ['db_password']
-if 'email_id' in os.environ:
-    email_id = os.environ['email_id']
-if 'email_password' in os.environ:
-    email_password = os.environ['email_password']
+SERVER_APP_FOLDER_NAME = 'solefi-cms'
+
+environ.Env.read_env()
+
+
+SECRET_KEY = environment('SECRET_KEY')
+ENVIRONMENT = environment('ENVIRONMENT')
+DB_NAME = environment('DB_NAME')
+DB_USER = environment('DB_USER')
+DB_PASSWORD = environment('DB_PASSWORD')
+EMAIL_HOST_USER = environment('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = environment('EMAIL_HOST_PASSWORD')
+
 
 class Common:
+    SECRET_KEY = SECRET_KEY
     SITE_HEADER = 'Solefi'
     INDEX_TITLE = 'CMS'
     SITE_TITLE = 'CMS'
+    API_DNS = 'http://127.0.0.1:8000/'
+    API_URL = '{}v1/'.format(API_DNS)
     EMAIL_HOST = 'smtp.gmail.com'
     EMAIL_USE_TLS = True
     EMAIL_PORT = 587
@@ -36,16 +44,18 @@ class Common:
     JWT_REFRESH_EXPIRATION_MINUTES = 600
     DATABASES = {
         'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': db_name,
-        'USER': db_user,
-        'PASSWORD': db_password,
-        'HOST': '127.0.0.1',
-        'PORT': '5432'
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': DB_NAME,
+            'USER': DB_USER,
+            'PASSWORD': DB_PASSWORD,
+            'HOST': '127.0.0.1',
+            'PORT': '5432'
         }
     }
-    EMAIL_HOST_USER = email_id
-    EMAIL_HOST_PASSWORD = email_password
+    EMAIL_HOST_USER = EMAIL_HOST_USER
+    EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
+    ENVIRONMENT = ENVIRONMENT
+
 
 class LOCAL(Common):
     DATABASES = {
@@ -54,23 +64,28 @@ class LOCAL(Common):
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
         }
     }
+    WEB_APP_URL = 'http://127.0.0.1:3000/'
+    MEDIA_ROOT=os.path.join(BASE_DIR, 'media')
 
-class QA(Common):
-    FOO = 'bar'
 
 class STAGING(Common):
-    FOO = 'bar'
+    API_DNS = 'https://api.solefi.staging.iguzman.com.mx/'
+    WEB_APP_URL = 'https://solefi.iguzman.com.mx/'
+    MEDIA_ROOT='/var/www/static/staging/{}/media'.format(SERVER_APP_FOLDER_NAME)
+
 
 class MASTER(Common):
     DEBUG = False
     JWT_ACCESS_EXPIRATION_MINUTES = 15
     JWT_REFRESH_EXPIRATION_MINUTES = 30
+    API_DNS = 'https://api.solefi.iguzman.com.mx/'
+    WEB_APP_URL = 'https://www.solefi.com.mx/'
+    MEDIA_ROOT='/var/www/static/master/{}/media'.format(SERVER_APP_FOLDER_NAME)
 
-if environment == 'qa':
-    env = QA
-elif environment == 'staging':
+
+if ENVIRONMENT == 'staging':
     env = STAGING
-elif environment == 'master':
+elif ENVIRONMENT == 'master':
     env = MASTER
 else:
     env = LOCAL
