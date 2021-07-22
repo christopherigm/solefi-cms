@@ -1,6 +1,7 @@
 #! /bin/bash
 
 file_name="";
+file_name_alone="";
 
 echo "Enter DNS (api.example.com):"
 read dns
@@ -99,12 +100,13 @@ then
 fi
 
 process_name=$django_app_name"-"$envt
-venv = "$django_app_name-$envt"
+venv="$django_app_name-$envt"
 
 # ============ Functions ============
 # $1 type -> nginx / supervisor
 PopulateFile () {
     file_name="deploy/$dns.$1.conf";
+    file_name_alone="$dns.$1.conf"
     if [ "$1" == "env" ]
     then
         file_name="deploy/$folder-$envt.env";
@@ -142,12 +144,8 @@ then
     read deploy;
     if [ "$deploy" == "y" ]
     then
-        sudo apt update;
-        sudo apt -y upgrade;
-        sudo apt -y autoremove;
-        sudo apt install nginx;
         sudo cp $file_name /etc/nginx/sites-available/;
-        sudo ln -s /etc/nginx/sites-available/$file_name /etc/nginx/sites-enabled/;
+        sudo ln -s /etc/nginx/sites-available/$file_name_alone /etc/nginx/sites-enabled/;
         sudo nginx -t;
         sudo service nginx restart;
     fi
@@ -155,7 +153,7 @@ then
     read delete_file;
     if [ "$delete_file" == "y" ]
     then
-        rm "deploy/$file_name";
+        rm $file_name;
     fi
 fi
 
@@ -172,10 +170,6 @@ then
     read deploy;
     if [ "$deploy" == "y" ]
     then
-        sudo apt update;
-        sudo apt -y upgrade;
-        sudo apt -y autoremove;
-        sudo apt install supervisor;
         sudo cp $file_name /etc/supervisor/conf.d/;
         sudo supervisorctl reread;
         sudo supervisorctl update;
@@ -185,7 +179,7 @@ then
     read delete_file;
     if [ "$delete_file" == "y" ]
     then
-        rm "deploy/$file_name";
+        rm $file_name;
     fi
 fi
 
@@ -199,11 +193,19 @@ then
     echo "$file_name:";
     cat $file_name;
     echo "======================================";
+    echo "Deploy .env configuration? (y/n)"
+    read deploy;
+    if [ "$deploy" == "y" ]
+    then
+        sudo mkdir -p /var/www/env/
+        sudo mkdir -p /var/www/env/$envt
+        sudo cp $file_name /var/www/env/$envt/;
+    fi
     echo "Delete .env configuration file? (y/n)";
     read delete_file;
     if [ "$delete_file" == "y" ]
     then
-        rm "deploy/$file_name";
+        rm $file_name;
     fi
 fi
 
