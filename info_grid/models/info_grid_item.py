@@ -80,8 +80,8 @@ class InfoGridItem(Picture):
                 self.info_grid.name
             )
         return 'Slide [{0}]'.format(
-                self.info_grid.name
-            ) 
+            self.info_grid.name
+        )
     
     def save(self, *args, **kwargs):
         self.info_grid.version=self.info_grid.version + 1
