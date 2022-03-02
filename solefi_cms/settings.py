@@ -19,7 +19,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-ENVIRONMENT = env.ENVIRONMENT
+ENVIRONMENT = env.ENVT
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -36,7 +36,6 @@ ALLOWED_HOSTS = env.ALLOWED_HOSTS
 # Application definition
 
 INSTALLED_APPS = [
-    'jet.dashboard',
     'jet',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -46,10 +45,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'drf_yasg',
-    'corsheaders',
     'django_filters',
-    'colorfield',
+    'corsheaders',
     'tinymce',
+    'colorfield',
     'common',
     'users',
     'pages',
@@ -73,7 +72,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        # 'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -141,22 +140,20 @@ EMAIL_HOST_USER = env.EMAIL_HOST_USER
 
 EMAIL_HOST_PASSWORD = env.EMAIL_HOST_PASSWORD
 
-WEB_APP_URL = env.WEB_APP_URL
-
 API_URL = env.API_URL
+
+WEB_APP_URL = env.WEB_APP_URL
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = env.STATIC_ROOT
 
-STATIC_URL = '/static/'
+STATIC_URL = "/static/"
 
 MEDIA_ROOT = env.MEDIA_ROOT
 
-API_DNS = env.API_DNS
-
-MEDIA_URL = '/media/'
+MEDIA_URL = "/media/"
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10240
 
@@ -207,11 +204,11 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(
-        minutes=env.JWT_ACCESS_EXPIRATION_MINUTES
+    'ACCESS_TOKEN_LIFETIME': timedelta (
+        days=env.JWT_ACCESS_EXPIRATION_DAYS
     ),
-    'REFRESH_TOKEN_LIFETIME': timedelta(
-        minutes=env.JWT_REFRESH_EXPIRATION_MINUTES
+    'REFRESH_TOKEN_LIFETIME': timedelta (
+        days=env.JWT_REFRESH_EXPIRATION_DAYS
     ),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
@@ -231,7 +228,7 @@ SIMPLE_JWT = {
 
     'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
-    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1)
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
 JET_THEMES = [
@@ -309,10 +306,9 @@ DJANGORESIZED_DEFAULT_SIZE = [1920, 1080]
 DJANGORESIZED_DEFAULT_QUALITY = 90
 DJANGORESIZED_DEFAULT_KEEP_META = True
 DJANGORESIZED_DEFAULT_FORCE_FORMAT = 'JPEG'
-DJANGORESIZED_DEFAULT_FORMAT_EXTENSIONS = {'JPEG': '.jpg'}
+DJANGORESIZED_DEFAULT_FORMAT_EXTENSIONS = { 'JPEG': ".jpg" }
 DJANGORESIZED_DEFAULT_NORMALIZE_ROTATION = True
 WORKER = 0
-
 
 if 'worker' in os.environ:
     WORKER = os.environ['worker']
