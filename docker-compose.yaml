@@ -1,0 +1,31 @@
+version: "3.9"
+services:
+  solefi-api-db:
+    image: postgres:14.0-alpine
+    restart: unless-stopped
+    volumes:
+      - /solefi-api/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${SOLEFI_API_POSTGRES_DB}
+      - POSTGRES_USER=${SOLEFI_API_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${SOLEFI_API_POSTGRES_PASSWORD}
+  solefi-api:
+    image: longmont.iguzman.com.mx:5000/solefi-api:${BRANCH}
+    restart: unless-stopped
+    scale: 1
+    environment:
+      - BRANCH=${BRANCH}
+      - SECRET_KEY=${SOLEFI_API_SECRET_KEY}
+      - ENVT=${SOLEFI_API_ENVIRONMENT}
+      - DB_NAME=${SOLEFI_API_POSTGRES_DB}
+      - DB_USER=${SOLEFI_API_POSTGRES_USER}
+      - DB_PASSWORD=${SOLEFI_API_POSTGRES_PASSWORD}
+      - EMAIL_HOST_USER=${SOLEFI_API_EMAIL_HOST_USER}
+      - EMAIL_HOST_PASSWORD=${SOLEFI_API_EMAIL_HOST_PASSWORD}
+    volumes:
+      - /solefi-api/static:/static
+      - /solefi-api/media:/media
+    ports:
+      - "${SOLEFI_API_PUBLIC_PORT}:8000"
+    depends_on:
+      - solefi-api-db
