@@ -6,7 +6,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 environment = environ.Env(
     SECRET_KEY=(str, 'key'),
-    ENVT=(str, 'localhost'),
+    ENVIRONMENT=(str, 'localhost'),
     DB_NAME=(str, 'iguzman'),
     DB_USER=(str, 'iguzman'),
     DB_PASSWORD=(str, 'iguzman'),
@@ -18,9 +18,8 @@ SERVER_APP_FOLDER_NAME = 'solefi-cms'
 
 environ.Env.read_env()
 
-
 SECRET_KEY = environment('SECRET_KEY')
-ENVT=environment('ENVT')
+ENVIRONMENT=environment('ENVIRONMENT')
 DB_NAME = environment('DB_NAME')
 DB_USER = environment('DB_USER')
 DB_PASSWORD = environment('DB_PASSWORD')
@@ -54,7 +53,7 @@ class Common:
     }
     EMAIL_HOST_USER = EMAIL_HOST_USER
     EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
-    ENVT=ENVT
+    ENVIRONMENT=ENVIRONMENT
     MEDIA_ROOT='/media'
     STATIC_ROOT='/static'
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -89,9 +88,9 @@ class MASTER(Common):
     API_URL='https://api.solefi.com.mx/'
 
 
-if ENVT == 'staging':
+if ENVIRONMENT == 'staging':
     env = STAGING
-elif ENVT == 'master':
+elif ENVIRONMENT == 'master':
     env = MASTER
 else:
     env = LOCAL
