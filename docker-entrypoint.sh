@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "ENVT: $ENVT"
+echo "ENVIRONMENT: $ENVIRONMENT"
 echo "BRANCH: $BRANCH"
 
 # Collect static files

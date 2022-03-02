@@ -101,7 +101,7 @@ buildDockerImage()
       console.log('\nProces completed!:', response.message);
       console.log(`\nImage: ${registry}/${name}:${branch}`);
     } else {
-      console.log('\nError triggering Jenkins job', response);
+      console.log('\nError triggering Jenkins job:', response.response.statusText);
       console.log(`\nImage: ${registry}/${name}:${branch}`);
     }
     const endTime = new Date(Date.now());
