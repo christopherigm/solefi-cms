@@ -10,7 +10,7 @@ services:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
   solefi-api:
-    image: longmont.iguzman.com.mx:5000/solefi-api:${BRANCH}
+    image: registry.vaggustudios.com/solefi-api:${BRANCH}
     restart: unless-stopped
     scale: 1
     environment:
