@@ -6,9 +6,9 @@ const axios = require('axios');
 
 // Editable variables
 const name = 'solefi-api';
-const jenkinsURL = 'https://jenkins.vaggustudios.com';
+const jenkinsURL = 'https://jenkins.iguzman.com.mx';
 const jenkinsURLProd = 'https://jenkins.vaggustudios.com';
-const registry = 'registry.vaggustudios.com';
+const registry = 'registry.iguzman.com.mx';
 // Editable variables
 
 const args = process.argv;
